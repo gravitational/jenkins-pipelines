@@ -1,0 +1,19 @@
+# This is a service gateway to the replica set created by the deployment.
+# Take a look at the deployment.yaml for general notes about this chart.
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.webserver.name | default "webserver"}}
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: {{.Values.webserver.port | default 80}}
+    protocol: TCP
+    name: http
+    targetPort: 8000
+  selector:
+    app: {{.Values.webserver.name | default "webserver"}}

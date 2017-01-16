@@ -1,0 +1,10 @@
+name: webserver
+version: 0.1.0
+description: Sample webserver written in Golang
+keywords:
+  - example
+  - golang
+home: "https://github.com/gravitational/jenkins-pipelines"
+sources:
+  - "https://github.com/gravitational/jenkins-pipelines"
+engine: gotpl

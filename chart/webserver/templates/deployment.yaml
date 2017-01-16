@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{.Values.webserver.name | default "webserver"}}
+  labels:
+    # The "heritage" label is used to track which tool deployed a given chart.
+    heritage: {{ .Release.Service | quote }}
+    # This makes it easy to search for all components of a release using kubectl.
+    release: {{ .Release.Name | quote }}
+    # This makes it easy to audit chart usage.
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+spec:
+  replicas: {{.Values.webserver.replicaCount | default 1}}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.webserver.name | default "webserver"}}
+        release: {{.Release.Name | quote }}
+    spec:
+      containers:
+      - name: webserver
+        image: {{.Values.webserver.image.repo | default "webserver"}}:{{.Values.webserver.image.tag | default "stable"}}
+        imagePullPolicy: {{.Values.webserver.pullPolicy | default "IfNotPresent" | quote}}
+        ports:
+        - name: http
+          containerPort: 8000
